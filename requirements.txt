@@ -1,0 +1,3 @@
+python-libsbml>=5.15.0
+six
+ipykernel>=4.6.1

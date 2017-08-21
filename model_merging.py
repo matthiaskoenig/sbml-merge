@@ -1,11 +1,20 @@
 
 # coding: utf-8
 
-# In[14]:
+# # Merging SBML files
 
-import libsbml
-from pprint import pprint
+# ## Define helper functions
+
+# In[6]:
+
+from __future__ import print_function, absolute_import
+
 import sys
+import os
+from six import iteritems
+from pprint import pprint
+import libsbml
+
 
 def create_ExternalModelDefinition(comp_doc, emd_id, source):
     """ Create comp ExternalModelDefinition.
@@ -93,7 +102,7 @@ def create_comp(model_paths):
     comp_doc = doc.getPlugin("comp")
     comp_model = model.getPlugin("comp")
 
-    for emd_id, path in model_paths.iteritems():        
+    for emd_id, path in iteritems(model_paths):
         # create ExternalModelDefinitions
         emd = create_ExternalModelDefinition(comp_doc, emd_id, source=path)
         # add submodel which references the external model definitions
@@ -102,22 +111,30 @@ def create_comp(model_paths):
     
     return doc
 
-################################################################
-    
+
+# ## Merging models
+# The models have have to be provided as a id:path dictionary.
+
+# In[8]:
+
 # dictionary of ids & paths of models which should be combined
 # here we just bring together the first Biomodels
 model_ids = ["BIOMD000000000{}".format(k) for k in range(1,5)]
-model_paths = dict(zip(model_ids, ["{}.xml".format(mid) for mid in model_ids]))
+model_paths = dict(zip(model_ids, ["models/{}.xml".format(mid) for mid in model_ids]))
+print('*' * 80)
+print('Models to merge:')
+print('*' * 80)
 pprint(model_paths)
+print('*' * 80)
 
 # necessary to convert models to SBML L3V1, unfortunately many biomodels/models
 # only L2V?, so additional step necessary
-for mid, path in model_paths.iteritems():
-    path_L3 = "{}_L3.xml".format(mid)
+for mid, path in iteritems(model_paths):
+    path_L3 = "results/{}_L3.xml".format(mid)
     doc = libsbml.readSBMLFromFile(path)
     if doc.getLevel()<3:
         doc.setLevelAndVersion(3, 1)
-    libsbml.writeSBMLToFile(doc, path_L3)
+    libsbml.writeSBMLToFile(doc, os.path.join('results', path_L3))
     model_paths[mid] = path_L3
 
 
@@ -131,11 +148,22 @@ doc = create_comp(model_paths)
 # is doing. The interfaces you have to write still.
 ###########
 
+print()
+print('*' * 80)
+print('Merged models:')
+print('*' * 80)
+
 # write comp model
-libsbml.writeSBMLToFile(doc, 'combined_model.xml')
+f_doc = 'results/combined_model.xml'
+libsbml.writeSBMLToFile(doc, f_doc)
+print('-->', f_doc)
 # flatten the model
+f_doc_flat = 'results/combined_model_flat.xml'
 doc_flat = flattenSBMLDocument(doc)
-libsbml.writeSBMLToFile(doc_flat, 'combined_model_flat.xml');
+libsbml.writeSBMLToFile(doc_flat, f_doc_flat);
+print('-->', f_doc)
+
+print('*' * 80)
 
 
 # In[ ]:
