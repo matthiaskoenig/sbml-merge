@@ -15,7 +15,9 @@ mkvirtualenv sbml-merge
 ```
 
 ### install python kernel
+```
 (sbml-merge) python -m ipykernel install --user --name=sbml-merge
+```
 
 ### start jupyter notebook with kernel
 ```
@@ -26,3 +28,6 @@ Select kernel
 Kernel -> Select Kernel -> sbml-merge
 ```
 Run notebook
+```
+Kernel -> Restart & Run all
+```
