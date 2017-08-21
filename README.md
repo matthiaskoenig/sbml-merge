@@ -1,4 +1,4 @@
-# sbml-merg
+# sbml-merge
 Merging SBML files with python libsbml bindings.
 
 ## Installation
@@ -31,3 +31,5 @@ Run notebook
 ```
 Kernel -> Restart & Run all
 ```
+
+&copy; 2017 Matthias König.
