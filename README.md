@@ -1,5 +1,5 @@
 # sbml-merge
-Merging SBML files with python libsbml bindings.
+Merging SBML files with python 3 libsbml. This project is deprecated, and now part of the functionality of [`sbmlutils`](https://github.com/matthiaskoenig/sbmlutils).
 
 ## Installation
 ### clone repository
@@ -10,8 +10,9 @@ git clone https://github.com/matthiaskoenig/sbml-merge.git
 ### setup virtual environment
 ```
 cd sbml-merge
-mkvirtualenv sbml-merge
+mkvirtualenv sbml-merge --python=python3
 (sbml-merge) pip install -r requirements.txt
+(sbml-merge) pip install jupyter jupyterlab
 ```
 
 ### install python kernel
@@ -19,9 +20,9 @@ mkvirtualenv sbml-merge
 (sbml-merge) python -m ipykernel install --user --name=sbml-merge
 ```
 
-### start jupyter notebook with kernel
+### start jupyter lab with kernel
 ```
-(sbml-merge) jupyter notebook model_merging.ipynb
+(sbml-merge) jupyter lab model_merging.ipynb
 ```
 Select kernel
 ```
